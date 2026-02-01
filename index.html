@@ -423,20 +423,38 @@
 
         // Function to generate random position - keeping within safe boundaries
         function getRandomPosition() {
-            // const margin = 100; // Keep away from edges
-            const randomX = Math.random() * (window.innerWidth - 50);
-            const randomY = Math.random() * (window.innerHeight - 50);
-            return { x: randomX, y: randomY };
-
-
-            // // Increase this number! It must be larger than your element's width/height
-            // const safeSize = 500; 
-            
-            // // We use Math.max(0, ...) to prevent errors if the screen gets super small
-            // const randomX = Math.random() * Math.max(0, window.innerWidth - safeSize);
-            // const randomY = Math.random() * Math.max(0, window.innerHeight - safeSize);
-            
+            // // const margin = 100; // Keep away from edges
+            // const randomX = Math.random() * (window.innerWidth - 50);
+            // const randomY = Math.random() * (window.innerHeight - 50);
             // return { x: randomX, y: randomY };
+
+
+            // // // Increase this number! It must be larger than your element's width/height
+            // // const safeSize = 500; 
+            
+            // // // We use Math.max(0, ...) to prevent errors if the screen gets super small
+            // // const randomX = Math.random() * Math.max(0, window.innerWidth - safeSize);
+            // // const randomY = Math.random() * Math.max(0, window.innerHeight - safeSize);
+            
+            // // return { x: randomX, y: randomY };
+
+
+            // Function to generate random position - dynamic and safe
+            // 1. Get the actual size of the No button
+            // We default to 100/50 just in case the button isn't rendered yet
+            const btnWidth = noBtn.offsetWidth || 100; 
+            const btnHeight = noBtn.offsetHeight || 50;
+            
+            // 2. Calculate the maximum safe coordinate
+            // (Screen Width) minus (Button Width) = The last safe starting point
+            const maxX = window.innerWidth - btnWidth;
+            const maxY = window.innerHeight - btnHeight;
+
+            // 3. Generate random number within that safe zone
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            return { x: randomX, y: randomY };
         }
 
         function enlargeYesButton() {
