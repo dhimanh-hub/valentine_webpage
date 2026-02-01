@@ -335,7 +335,7 @@
         </div>
     </div>
 
-<script>
+    <script>
         // Create floating hearts background
         const heartBg = document.getElementById('heartBg');
         const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️', '💘'];
@@ -379,8 +379,10 @@
         });
 
         if (isMobile) {
+            // Mobile version - click-based behavior
             noBtn.addEventListener('click', handleNoClick);
         } else {
+            // Desktop version - hover and click based behavior
             noBtn.addEventListener('mouseenter', moveButton);
             noBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -393,7 +395,6 @@
             e.preventDefault();
             enlargeYesButton();
             showFunnyMessage();
-            moveButton(); // Move button AFTER showing message so we can position message correctly
         }
 
         function showFunnyMessage() {
@@ -404,7 +405,7 @@
             if (!messageEl) {
                 messageEl = document.createElement('div');
                 messageEl.className = 'no-message';
-                document.body.appendChild(messageEl); // Important: Append to body to match button
+                noBtn.parentElement.appendChild(messageEl);
             }
             
             messageEl.textContent = message;
@@ -414,42 +415,18 @@
         }
 
         function moveButton() {
-            // --- THE FIX STARTS HERE ---
-            // 1. Move the button to the main 'body' so it escapes the container's layout trap
-            if (noBtn.parentNode !== document.body) {
-                document.body.appendChild(noBtn);
-            }
-
-            // 2. Calculate safe position
-            const btnWidth = noBtn.offsetWidth || 100;
-            const btnHeight = noBtn.offsetHeight || 40;
-            
-            // Max allowed X and Y (Screen size - Button size)
-            const maxX = window.innerWidth - btnWidth;
-            const maxY = window.innerHeight - btnHeight;
-
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
-
-            // 3. Apply Fixed Position
+            const randomPos = getRandomPosition();
             noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            noBtn.style.left = randomPos.x + 'px';
+            noBtn.style.top = randomPos.y + 'px';
+        }
 
-            // 4. If there is a funny message, move it to follow the button
-            const messageEl = document.querySelector('.no-message');
-            if (messageEl) {
-                // Ensure message is also on body
-                if (messageEl.parentNode !== document.body) {
-                    document.body.appendChild(messageEl);
-                }
-                messageEl.style.position = 'fixed';
-                // Center the message above the button
-                // (Button Left + Half Button Width) puts us in the middle
-                messageEl.style.left = (randomX + btnWidth / 2) + 'px';
-                messageEl.style.top = (randomY - 50) + 'px'; // 50px above the button
-            }
-            // --- THE FIX ENDS HERE ---
+        // Function to generate random position - keeping within safe boundaries
+        function getRandomPosition() {
+            const margin = 100; // Keep away from edges
+            const randomX = margin + Math.random() * (window.innerWidth - 200 - margin);
+            const randomY = margin + Math.random() * (window.innerHeight - 100 - margin);
+            return { x: randomX, y: randomY };
         }
 
         function enlargeYesButton() {
@@ -459,16 +436,11 @@
 
         // Yes button functionality
         yesBtn.addEventListener('click', () => {
+            // Hide everything except success message
             document.querySelector('h1').style.display = 'none';
             document.querySelector('.emoji').style.display = 'none';
             document.querySelector('.message').style.display = 'none';
             buttonContainer.style.display = 'none';
-            
-            // Also hide the floating No button if it's out there
-            noBtn.style.display = 'none';
-            const msg = document.querySelector('.no-message');
-            if(msg) msg.style.display = 'none';
-
             successMessage.style.display = 'block';
             createHeartRain();
         });
