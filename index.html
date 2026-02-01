@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe5f1 25%, #ffd6ea 50%, #ffc9e3 75%, #ffb8dc 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 60px 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 48px;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .question {
+            font-size: 24px;
+            color: #ff69b4;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .buttons-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .buttons-container {
+                height: 250px;
+            }
+        }
+
+        button {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff1493 100%);
+            color: white;
+            padding: 15px 40px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #yesBtn:hover {
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #d3d3d3 0%, #a8a8a8 100%);
+            color: white;
+            padding: 12px 35px;
+            position: absolute;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        #noBtn:hover {
+            background: linear-gradient(135deg, #c0c0c0 0%, #989898 100%);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .question {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 40px 30px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+
+            #yesBtn {
+                padding: 12px 35px;
+            }
+
+            #noBtn {
+                padding: 10px 30px;
+                font-size: 15px;
+            }
+        }
+
+        .message {
+            display: none;
+            animation: fadeInScale 0.6s ease;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .message h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 42px;
+            color: #ff1493;
+            margin-bottom: 20px;
+        }
+
+        .message p {
+            font-size: 20px;
+            color: #ff69b4;
+            line-height: 1.6;
+        }
+
+        .heart-explosion {
+            font-size: 50px;
+            margin: 20px 0;
+            animation: heartBeat 1s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+    
+    <div class="container">
+        <div id="questionContent">
+            <h1>Hey Beautiful! 💖</h1>
+            <p class="question">Will you be my Valentine?</p>
+            <div class="buttons-container">
+                <button id="yesBtn">Yes! 💕</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div class="message" id="message">
+            <h2>Yay! 🎉</h2>
+            <div class="heart-explosion">💖💕💗💓💝</div>
+            <p>I knew you'd say yes! You've made me the happiest person ever! I can't wait to spend this Valentine's Day with you and make it absolutely magical! 🌟</p>
+            <p style="margin-top: 20px; font-style: italic;">I love you so much! ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts background
+        const heartBg = document.getElementById('heartBg');
+        const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️', '💘'];
+        
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 15 + 's';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heartBg.appendChild(heart);
+        }
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionContent = document.getElementById('questionContent');
+        const message = document.getElementById('message');
+        
+        let yesBtnScale = 1;
+        let noBtnScale = 1;
+        let noClickCount = 0;
+        
+        // Funny messages for the No button
+        const noMessages = [
+            "No",
+            "Are you sure?",
+            "Really sure?",
+            "Think again!",
+            "100% sure?",
+            "That's rude! 😢",
+            "I know you didn't mean that",
+            "You're breaking my heart 💔",
+            "Please reconsider 🥺",
+            "Pretty please? 🙏",
+            "Don't be like that!",
+            "You sure about that?",
+            "Last chance!",
+            "Okay now you're just being mean",
+            "My heart can't take this 😭"
+        ];
+        
+        // Detect if device is mobile/touch
+        const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        
+        // Check if two rectangles overlap
+        function isOverlapping(rect1, rect2, margin = 20) {
+            return !(rect1.right + margin < rect2.left || 
+                     rect1.left - margin > rect2.right || 
+                     rect1.bottom + margin < rect2.top || 
+                     rect1.top - margin > rect2.bottom);
+        }
+        
+        // Set initial position for No button, ensuring it doesn't overlap with Yes button
+        function setRandomPosition() {
+            const container = document.querySelector('.buttons-container');
+            const containerRect = container.getBoundingClientRect();
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            
+            let randomX, randomY;
+            let attempts = 0;
+            let validPosition = false;
+            
+            while (!validPosition && attempts < 50) {
+                // Generate random position
+                randomX = Math.random() * (containerRect.width - btnWidth);
+                randomY = Math.random() * (containerRect.height - btnHeight);
+                
+                // Create a temporary rect for the No button at this position
+                const noBtnRect = {
+                    left: randomX,
+                    right: randomX + btnWidth,
+                    top: randomY,
+                    bottom: randomY + btnHeight
+                };
+                
+                // Get Yes button's current rect (accounting for its scale)
+                const yesBtnRect = yesBtn.getBoundingClientRect();
+                const containerOffset = container.getBoundingClientRect();
+                
+                const yesBtnLocalRect = {
+                    left: yesBtnRect.left - containerOffset.left,
+                    right: yesBtnRect.right - containerOffset.left,
+                    top: yesBtnRect.top - containerOffset.top,
+                    bottom: yesBtnRect.bottom - containerOffset.top
+                };
+                
+                // Check if position is valid (no overlap)
+                if (!isOverlapping(noBtnRect, yesBtnLocalRect, 30)) {
+                    validPosition = true;
+                }
+                
+                attempts++;
+            }
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+        
+        // Set initial position
+        setRandomPosition();
+        
+        // Function to update shake animation with current scale
+        function updateShakeAnimation() {
+            const existingStyle = document.getElementById('shake-style');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            const style = document.createElement('style');
+            style.id = 'shake-style';
+            style.textContent = `
+                @keyframes shake-mobile {
+                    0%, 100% { transform: scale(${noBtnScale}) translateX(0); }
+                    25% { transform: scale(${noBtnScale}) translateX(-5px); }
+                    75% { transform: scale(${noBtnScale}) translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Function to handle No button interaction on MOBILE (click with messages)
+        function handleNoInteractionMobile(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Update message
+            noClickCount++;
+            const messageIndex = Math.min(noClickCount, noMessages.length - 1);
+            noBtn.textContent = noMessages[messageIndex];
+            
+            // Shrink No button by 5%
+            noBtnScale -= 0.05;
+            noBtnScale = Math.max(noBtnScale, 0.2); // Don't let it get too small
+            noBtn.style.transform = `scale(${noBtnScale})`;
+            
+            // Move the button
+            setRandomPosition();
+            
+            // Grow Yes button by 5%
+            yesBtnScale += 0.05;
+            yesBtn.style.transform = `translate(-50%, -50%) scale(${yesBtnScale})`;
+            
+            // Add a little shake animation to the No button with current scale
+            noBtn.style.animation = 'none';
+            // Update shake animation with current scale
+            updateShakeAnimation();
+            setTimeout(() => {
+                noBtn.style.animation = 'shake-mobile 0.3s';
+            }, 10);
+        }
+        
+        // Function to handle No button interaction on DESKTOP (hover without messages)
+        function handleNoInteractionDesktop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Shrink No button by 5%
+            noBtnScale -= 0.05;
+            noBtnScale = Math.max(noBtnScale, 0.2); // Don't let it get too small
+            noBtn.style.transform = `scale(${noBtnScale})`;
+            
+            // Move the button
+            setRandomPosition();
+            
+            // Grow Yes button by 5%
+            yesBtnScale += 0.05;
+            yesBtn.style.transform = `translate(-50%, -50%) scale(${yesBtnScale})`;
+        }
+        
+        
+        if (isMobile) {
+            // On mobile: use click/touch events with messages
+            noBtn.addEventListener('click', handleNoInteractionMobile);
+            noBtn.addEventListener('touchstart', handleNoInteractionMobile);
+        } else {
+            // On desktop: use hover (just move, no messages)
+            noBtn.addEventListener('mouseenter', handleNoInteractionDesktop);
+        }
+        
+        // Handle Yes button click
+        yesBtn.addEventListener('click', function() {
+            questionContent.style.display = 'none';
+            message.style.display = 'block';
+            
+            // Add more floating hearts celebration
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heartBg.appendChild(heart);
+                }, i * 100);
+            }
+        });
+    </script>
+</body>
+</html>
