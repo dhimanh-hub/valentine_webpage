@@ -423,9 +423,19 @@
 
         // Function to generate random position - keeping within safe boundaries
         function getRandomPosition() {
-            const margin = 100; // Keep away from edges
-            const randomX = Math.random() * (window.innerWidth - 100);
-            const randomY = Math.random() * (window.innerHeight - 100);
+            // const margin = 100; // Keep away from edges
+            // const randomX = Math.random() * (window.innerWidth - 100);
+            // const randomY = Math.random() * (window.innerHeight - 100);
+            // return { x: randomX, y: randomY };
+
+
+            // Increase this number! It must be larger than your element's width/height
+            const safeSize = 300; 
+            
+            // We use Math.max(0, ...) to prevent errors if the screen gets super small
+            const randomX = Math.random() * Math.max(0, window.innerWidth - safeSize);
+            const randomY = Math.random() * Math.max(0, window.innerHeight - safeSize);
+            
             return { x: randomX, y: randomY };
         }
 
