@@ -424,8 +424,8 @@
         // Function to generate random position - keeping within safe boundaries
         function getRandomPosition() {
             const margin = 100; // Keep away from edges
-            const randomX = margin + Math.random() * (window.innerWidth - 200 - margin);
-            const randomY = margin + Math.random() * (window.innerHeight - 100 - margin);
+            const randomX = Math.random() * (window.innerWidth - 100);
+            const randomY = Math.random() * (window.innerHeight - 100);
             return { x: randomX, y: randomY };
         }
 
